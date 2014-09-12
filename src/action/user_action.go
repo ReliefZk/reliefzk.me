@@ -2,11 +2,12 @@ package action
 
 import (
 	"dao"
+	"fmt"
 	"html/template"
 	"log"
 	"model"
 	"net/http"
-	"fmt"
+	"util"
 )
 
 var userDao dao.UserDao = new(dao.UserDaoImpl)
@@ -16,7 +17,7 @@ var userDao dao.UserDao = new(dao.UserDaoImpl)
  */
 func IndexPageHandler(writer http.ResponseWriter, reader *http.Request) {
 	log.Println("index page handler.....")
-	tmpl, err := template.ParseFiles("../src/templates/index.html")
+	tmpl, err := util.MergeTemplate("home", nil)
 	if err != nil {
 		fmt.Println("html parse failed....", err)
 		return
@@ -29,7 +30,7 @@ func IndexPageHandler(writer http.ResponseWriter, reader *http.Request) {
  */
 func RegPageHandler(writer http.ResponseWriter, reader *http.Request) {
 	log.Println("index page handler.....")
-	tmpl, err := template.ParseFiles("../src/templates/reg.html")
+	tmpl, err := template.ParseFiles(util.Template_prefix_path + "reg.html")
 	if err == nil {
 		log.Println("html parse failed....")
 		return
@@ -44,7 +45,7 @@ func RegPageHandler(writer http.ResponseWriter, reader *http.Request) {
  */
 func LoginPageHandler(writer http.ResponseWriter, reader *http.Request) {
 	log.Println("index page handler.....")
-	tmpl, err := template.ParseFiles("src/templates/login.html")
+	tmpl, err := template.ParseFiles(util.Template_prefix_path + "login.html")
 	if err == nil {
 		log.Println("html parse failed....")
 		return
@@ -60,10 +61,10 @@ func LoginActionHandler(resp http.ResponseWriter, req *http.Request) {
 	// fill user model
 	username := req.FormValue("username")
 	password := req.FormValue("password")
-	var user *model.User = &model.User{ Name: username, Password: password }
+	var user *model.User = &model.User{Name: username, Password: password}
 	userDao.Save(user)
 	// template
-	tmpl, err := template.ParseFiles("src/templates/success.html")
+	tmpl, err := template.ParseFiles(util.Template_prefix_path + "success.html")
 	if err == nil {
 		log.Println("html parse failed....")
 		return

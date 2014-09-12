@@ -20,16 +20,18 @@ var pageMap = make(map[string]string)
  */
 func init() {
 	/* 初始化网页模版 */
-	foot, _ = ReadFile("foot.html")
-	footer, _ = ReadFile("footer.html")
 	head, _ = ReadFile("head.html")
 	header, _ = ReadFile("header.html")
+	foot, _ = ReadFile("foot.html")
+	footer, _ = ReadFile("footer.html")
+
 	/* map data */
 	home, _ := ReadFile("home.html")
 	pageMap["home"] = home
 }
+
 //模版路径前缀
-var template_prefix_path = "src/templates/"
+var Template_prefix_path = "../src/templates/"
 
 /**
 * 1,读取html模版
@@ -48,7 +50,7 @@ func MergeTemplate(tmplName string, pullMap template.FuncMap) (*template.Templat
 * 读取模版
  */
 func ReadFile(name string) (string, error) {
-	b, err := ioutil.ReadFile(template_prefix_path + name)
+	b, err := ioutil.ReadFile(Template_prefix_path + name)
 	if err != nil {
 		log.Println(err)
 		return "", err
