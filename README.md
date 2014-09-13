@@ -1,4 +1,4 @@
-reliefzk.me[#reliefzk.me]
+<a href="http://reliefzk.me" target="_blank">reliefzk.me</a>
 ======
 个人博客代码
 > ## golang html5 angularjs
