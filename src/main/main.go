@@ -29,5 +29,5 @@ func Route() {
 	http.HandleFunc("/login.action", action.LoginActionHandler)
 	http.HandleFunc("/reg", action.RegPageHandler)
 	http.HandleFunc("/reg.action", action.LoginActionHandler)
-
+	http.HandleFunc("/about", action.AboutActionHandler)
 }

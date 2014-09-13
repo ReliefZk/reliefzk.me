@@ -1,0 +1,81 @@
+@charset "gb2312";
+/* CSS Document */
+.banner { 
+	background: url(../images/banner.jpg) no-repeat center; 
+	height: 290px; 
+	margin: 10px auto; 
+	width: 100%; 
+	font-size: 16px; 
+	font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif; 
+}
+@-webkit-keyframes animations { 
+	0% {
+		-webkit-transform:translate(0);
+		opacity:0;
+	}
+ 	50% {
+		-webkit-transform:translate(30px);
+		opacity:.5;
+	}
+	100% {
+		-webkit-transform:translate(60px);
+		opacity:1;
+	}
+}
+@-moz-keyframes animations { 
+	0% {
+		-moz-transform:translate(0);
+		opacity:0;
+	}
+ 	50% {
+		-moz-transform:translate(30px);
+		opacity:.5;
+	}
+ 	100% {
+	-moz-transform:translate(60px);
+	opacity:1;
+	}
+}
+@-o-keyframes animations { 
+	0% {
+		-o-transform:translate(0);
+		opacity:0;
+	}
+ 	50% {
+	-o-transform:translate(30px);
+	opacity:.5;
+	}
+ 	100% {
+		-o-transform:translate(60px);
+	opacity:1;
+	}
+}
+@-ms-keyframes animations { 
+	0% {
+		-ms-transform:translate(0);
+		opacity:0;
+	}
+ 	50% {
+		-ms-transform:translate(30px);
+		opacity:.5;
+	}
+ 	100% {
+		-ms-transform:translate(60px);
+		opacity:1;
+	}
+}
+@keyframes animations { 
+	0% {
+		transform:translate(0);
+		opacity:0;
+	}
+ 	50% {
+		transform:translate(30px);
+		opacity:.5;
+	}
+ 	100% {
+		transform:translate(60px);
+		opacity:1;
+	}
+}
+

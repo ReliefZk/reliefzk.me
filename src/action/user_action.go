@@ -2,8 +2,6 @@ package action
 
 import (
 	"dao"
-	"fmt"
-	"html/template"
 	"log"
 	"model"
 	"net/http"
@@ -17,57 +15,44 @@ var userDao dao.UserDao = new(dao.UserDaoImpl)
  */
 func IndexPageHandler(writer http.ResponseWriter, reader *http.Request) {
 	log.Println("index page handler.....")
-	tmpl, err := util.MergeTemplate("home", nil)
-	if err != nil {
-		fmt.Println("html parse failed....", err)
-		return
-	}
-	tmpl.Execute(writer, nil)
+	util.PrintStaticTempalte(writer, "home", nil, nil)
 }
 
 /**
 * reg page handler
  */
 func RegPageHandler(writer http.ResponseWriter, reader *http.Request) {
-	log.Println("index page handler.....")
-	tmpl, err := template.ParseFiles(util.Template_prefix_path + "reg.html")
-	if err == nil {
-		log.Println("html parse failed....")
-		return
-	} else {
-		fmt.Println("#########", err)
-	}
-	tmpl.Execute(writer, nil)
+	log.Println("reg page handler.....")
+	util.PrintStaticTempalte(writer, "reg", nil, nil)
 }
 
 /**
 * login page handler
  */
 func LoginPageHandler(writer http.ResponseWriter, reader *http.Request) {
-	log.Println("index page handler.....")
-	tmpl, err := template.ParseFiles(util.Template_prefix_path + "login.html")
-	if err == nil {
-		log.Println("html parse failed....")
-		return
-	}
-	tmpl.Execute(writer, nil)
+	log.Println("login page handler.....")
+	util.PrintStaticTempalte(writer, "login", nil, nil)
 }
 
 /**
-* login page handler
+* login action page handler
  */
-func LoginActionHandler(resp http.ResponseWriter, req *http.Request) {
-	log.Println("index page handler.....")
+func LoginActionHandler(writer http.ResponseWriter, req *http.Request) {
+	log.Println("login action page handler.....")
 	// fill user model
 	username := req.FormValue("username")
 	password := req.FormValue("password")
 	var user *model.User = &model.User{Name: username, Password: password}
 	userDao.Save(user)
+
 	// template
-	tmpl, err := template.ParseFiles(util.Template_prefix_path + "success.html")
-	if err == nil {
-		log.Println("html parse failed....")
-		return
-	}
-	tmpl.Execute(resp, user)
+	util.PrintStaticTempalte(writer, "success", nil, user)
+}
+
+/**
+* about page handler
+ */
+func AboutActionHandler(writer http.ResponseWriter, req *http.Request) {
+	log.Println("about page handler.....")
+	util.PrintStaticTempalte(writer, "about", nil, nil)
 }
