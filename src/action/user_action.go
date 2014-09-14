@@ -15,7 +15,7 @@ var userDao dao.UserDao = new(dao.UserDaoImpl)
  */
 func IndexPageHandler(writer http.ResponseWriter, reader *http.Request) {
 	log.Println("index page handler.....")
-	util.PrintStaticTempalte(writer, "index.html", nil)
+	util.PrintStaticTempalte(writer, "index.html", map[string]string{"Content": "common/bloglist.html"})
 }
 
 /**
@@ -52,7 +52,7 @@ func LoginActionHandler(writer http.ResponseWriter, req *http.Request) {
 /**
 * about page handler
  */
-func AboutActionHandler(writer http.ResponseWriter, req *http.Request) {
+func CRHandler(writer http.ResponseWriter, req *http.Request) {
 	log.Println("about page handler.....")
-	util.PrintStaticTempalte(writer, "about", nil)
+	util.PrintStaticTempalte(writer, "common/copyright.html", nil)
 }

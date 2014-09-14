@@ -8,20 +8,16 @@ import (
 	"action"
 	"log"
 	"net/http"
-	"util"
 )
 
 func main() {
-	/*log.Println("server start...")
+	log.Println("server start...")
 	Route()
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		log.Println("ListenAndServe failed!", err.Error())
 		return
-	}*/
-
-	str, _ := util.ParseHtmlTemplateToStr("index.html", nil)
-	log.Println(str)
+	}
 }
 
 /**
@@ -33,5 +29,5 @@ func Route() {
 	http.HandleFunc("/login.action", action.LoginActionHandler)
 	http.HandleFunc("/reg", action.RegPageHandler)
 	http.HandleFunc("/reg.action", action.LoginActionHandler)
-	http.HandleFunc("/about", action.AboutActionHandler)
+	http.HandleFunc("/cr", action.CRHandler)
 }

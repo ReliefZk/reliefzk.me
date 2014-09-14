@@ -1,26 +1,26 @@
 <!doctype html>
-<html>
+<html> 
 <head>
-	{{ template "common/head.html" . }}
+	{{ mytemplate "common/head.html" .}}
 </head>
 <body><div class="ibody">
 	<!-- 导航栏 -->
 	<header>
-		{{ template "common/header.html" . }}
+		{{ mytemplate "common/header.html" . }}
 	</header>
 	<!-- ending of header -->
 	<article>
-	   {{.Content}}
+	   {{ mytemplate .Content . }}
 	</article>
 	<!-- ending of article -->
 	<aside>
-		{{ template "common/avatar.html" . }}
-		{{ template "common/tuijian.html" . }}
-		{{ template "common/copyright.html" . }}
+		{{ mytemplate "common/avatar.html" . }}
+		{{ mytemplate "common/tuijian.html" . }}
+		{{ mytemplate "common/copyright.html" . }}
 	</aside>
 <!-- ending of ibody -->	
 </div>
 <!-- 引入JS -->
-<script src="js/slider.js"></script>
+<script src="{{ hostname }}/js/slider.js"></script>
 </body>
 </html>

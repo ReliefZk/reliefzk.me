@@ -6,16 +6,24 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 )
 
 /**
 * 初始化
+ */
+var PullFuncMap = make(template.FuncMap)
 
 func init() {
 	log.Println("init............")
+	PullFuncMap["mytemplate"] = MyTemplateDirective
+	PullFuncMap["hostname"] = GetHost
+	PullFuncMap["unescaped"] = unescaped
 }
-*/
+
+func unescaped(x string) interface{} {
+	return template.HTML(x)
+}
+
 /**
 * 返回服务器地址
  */
@@ -28,13 +36,31 @@ func GetHost() string {
  */
 func PrintStaticTempalte(writer http.ResponseWriter, tmplName string, data interface{}) {
 	t, err := ParseTemplate(tmplName)
-	log.Println(t)
 	if err != nil {
 		log.Println(err.Error())
 		return
 	} else {
 		t.Execute(writer, data)
 	}
+}
+
+/**
+* 编译html为go模板
+ */
+func ParseTemplate(tname string) (*template.Template, error) {
+	tmpl_str, err := LoadHtmlTemplateToStr(tname)
+	if err != nil {
+		log.Println("加载模板失败，", err.Error())
+		return nil, err
+	}
+	//second compile html string
+	//parse模版
+	t, err := template.New(tname).Funcs(template.FuncMap(PullFuncMap)).Parse(tmpl_str)
+	if err != nil {
+		log.Println("编译模板失败！", err.Error())
+		return nil, err
+	}
+	return t, nil
 }
 
 //模版路径前缀
@@ -52,44 +78,20 @@ func LoadHtmlTemplateToStr(tname string) (string, error) {
 }
 
 /**
-* 包含模板
+* 包含模板 directive
  */
-func ParseHtmlTemplateToStr(tname string, data interface{}) (string, error) {
+func MyTemplateDirective(tname string, data interface{}) template.HTML {
 	s, err := LoadHtmlTemplateToStr(tname)
 	if err != nil {
 		log.Println("解析模板[", tname, "]错误,", err.Error())
-		return "", err
+		return template.HTML("")
 	}
-	log.Println(s)
-	t, err := template.New(tname).Parse(s)
+	t, err := template.New(tname).Funcs(template.FuncMap(PullFuncMap)).Parse(s)
 	if err != nil {
 		log.Println("解析模板[", tname, "]错误,", err.Error())
-		return "", err
+		return template.HTML("")
 	}
 	buff := bytes.NewBufferString("")
 	t.Execute(buff, data)
-	t_str := buff.String()
-	log.Println(t_str)
-	return t_str, nil
-}
-
-/**
-* 编译html为go模板
- */
-func ParseTemplate(tname string) (*template.Template, error) {
-	tmpl_str, err := LoadHtmlTemplateToStr(tname)
-	if err != nil {
-		log.Println("加载模板失败，", err.Error())
-		return nil, err
-	}
-	//parse模版
-	t := template.New(tname)
-	t = t.Funcs(template.FuncMap{"template": ParseHtmlTemplateToStr})
-	t, err = t.Parse(tmpl_str)
-	if err != nil {
-		log.Println("编译模板失败！", err.Error())
-		return nil, err
-	}
-	t.Execute(os.Stdout, map[string]string{"Content": "bloglist.html"})
-	return t, nil
+	return template.HTML(buff.String())
 }
