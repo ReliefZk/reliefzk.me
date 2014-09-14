@@ -15,7 +15,7 @@ var userDao dao.UserDao = new(dao.UserDaoImpl)
  */
 func IndexPageHandler(writer http.ResponseWriter, reader *http.Request) {
 	log.Println("index page handler.....")
-	util.PrintStaticTempalte(writer, "home", nil, nil)
+	util.PrintStaticTempalte(writer, "index.html", nil)
 }
 
 /**
@@ -23,7 +23,7 @@ func IndexPageHandler(writer http.ResponseWriter, reader *http.Request) {
  */
 func RegPageHandler(writer http.ResponseWriter, reader *http.Request) {
 	log.Println("reg page handler.....")
-	util.PrintStaticTempalte(writer, "reg", nil, nil)
+	util.PrintStaticTempalte(writer, "reg", nil)
 }
 
 /**
@@ -31,7 +31,7 @@ func RegPageHandler(writer http.ResponseWriter, reader *http.Request) {
  */
 func LoginPageHandler(writer http.ResponseWriter, reader *http.Request) {
 	log.Println("login page handler.....")
-	util.PrintStaticTempalte(writer, "login", nil, nil)
+	util.PrintStaticTempalte(writer, "login", nil)
 }
 
 /**
@@ -46,7 +46,7 @@ func LoginActionHandler(writer http.ResponseWriter, req *http.Request) {
 	userDao.Save(user)
 
 	// template
-	util.PrintStaticTempalte(writer, "success", nil, user)
+	util.PrintStaticTempalte(writer, "success", user)
 }
 
 /**
@@ -54,5 +54,5 @@ func LoginActionHandler(writer http.ResponseWriter, req *http.Request) {
  */
 func AboutActionHandler(writer http.ResponseWriter, req *http.Request) {
 	log.Println("about page handler.....")
-	util.PrintStaticTempalte(writer, "about", nil, nil)
+	util.PrintStaticTempalte(writer, "about", nil)
 }

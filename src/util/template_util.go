@@ -1,103 +1,95 @@
 package util
 
 import (
+	"bytes"
 	"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 )
-
-//模版字符串
-var (
-	foot,
-	footer,
-	head,
-	header string
-)
-
-//页面对应的map
-var pageMap = make(map[string]string)
-
-//模版路径前缀
-var Template_prefix_path = "../src/templates/"
-
-//初始PULL模版变量
-var pullMap = make(template.FuncMap)
 
 /**
 * 初始化
- */
+
 func init() {
-	/* 初始化网页模版 */
-	head, _ = ReadFile("head.html")
-	header, _ = ReadFile("header.html")
-	foot, _ = ReadFile("foot.html")
-	footer, _ = ReadFile("footer.html")
-
-	/* map data */
-	home, _ := ReadFile("home.html")
-	pageMap["home"] = home
-
-	_404, _ := ReadFile("404.html")
-	pageMap["404"] = _404
-
-	_error, _ := ReadFile("error.html")
-	pageMap["error"] = _error
-
-	//pull 变量
-	pullMap["__server_name"] = "http://localhost"
+	log.Println("init............")
 }
-
+*/
 /**
-* 1,读取html模版
-* 2,合并
-* 3,输出
+* 返回服务器地址
  */
-func MergeTemplate(tmplName string, funcMap template.FuncMap) (*template.Template, error) {
-	//merge map
-	if funcMap != nil {
-		for key, value := range funcMap {
-			pullMap[key] = value
-		}
-	}
-	//模版连接
-	tmpl_str := head + header + GetPageStrByName(tmplName) + footer + foot
-	//parse模版
-	t, _ := template.New(tmplName).Funcs(template.FuncMap(pullMap)).Parse(tmpl_str)
-	return t, nil
+func GetHost() string {
+	return "http://localhost"
 }
 
 /**
 * 输出静态html文件
  */
-func PrintStaticTempalte(writer http.ResponseWriter, tmplName string, funcMap template.FuncMap, data interface{}) {
-	tmpl, err := MergeTemplate(tmplName, funcMap)
+func PrintStaticTempalte(writer http.ResponseWriter, tmplName string, data interface{}) {
+	t, err := ParseTemplate(tmplName)
+	log.Println(t)
 	if err != nil {
-		tmpl.Execute(writer, data)
+		log.Println(err.Error())
+		return
 	} else {
-		PrintStaticTempalte(writer, "error", nil, nil)
+		t.Execute(writer, data)
 	}
 }
 
-/**
-* 获取模版
- */
-func GetPageStrByName(tmplName string) string {
-	tmpls := pageMap[tmplName]
-	if tmpls == "" {
-		return pageMap["404"]
-	}
-	return tmpls
-}
+//模版路径前缀
+var Template_prefix_path = "/home/zk/code/go/src/reliefzk.me/src/templates/"
 
 /**
-* 读取模版
+* 通过ioutil读取html模板
  */
-func ReadFile(name string) (string, error) {
-	b, err := ioutil.ReadFile(Template_prefix_path + name)
+func LoadHtmlTemplateToStr(tname string) (string, error) {
+	sbyte, err := ioutil.ReadFile(Template_prefix_path + tname)
 	if err != nil {
-		log.Println(err)
 		return "", err
 	}
-	return string(b), nil
+	return string(sbyte), nil
+}
+
+/**
+* 包含模板
+ */
+func ParseHtmlTemplateToStr(tname string, data interface{}) (string, error) {
+	s, err := LoadHtmlTemplateToStr(tname)
+	if err != nil {
+		log.Println("解析模板[", tname, "]错误,", err.Error())
+		return "", err
+	}
+	log.Println(s)
+	t, err := template.New(tname).Parse(s)
+	if err != nil {
+		log.Println("解析模板[", tname, "]错误,", err.Error())
+		return "", err
+	}
+	buff := bytes.NewBufferString("")
+	t.Execute(buff, data)
+	t_str := buff.String()
+	log.Println(t_str)
+	return t_str, nil
+}
+
+/**
+* 编译html为go模板
+ */
+func ParseTemplate(tname string) (*template.Template, error) {
+	tmpl_str, err := LoadHtmlTemplateToStr(tname)
+	if err != nil {
+		log.Println("加载模板失败，", err.Error())
+		return nil, err
+	}
+	//parse模版
+	t := template.New(tname)
+	t = t.Funcs(template.FuncMap{"template": ParseHtmlTemplateToStr})
+	t, err = t.Parse(tmpl_str)
+	if err != nil {
+		log.Println("编译模板失败！", err.Error())
+		return nil, err
+	}
+	t.Execute(os.Stdout, map[string]string{"Content": "bloglist.html"})
+	return t, nil
 }

@@ -1,8 +1,8 @@
 package dao
 
 import (
-	"model"
 	"log"
+	"model"
 )
 
 type UserDao interface {
@@ -11,7 +11,6 @@ type UserDao interface {
 }
 
 type UserDaoImpl struct {
-	
 }
 
 func (userDao *UserDaoImpl) Save(user *model.User) {

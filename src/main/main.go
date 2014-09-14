@@ -1,23 +1,27 @@
 package main
 
 /**
-* 启动http服务
+* util.
 *
  */
 import (
 	"action"
 	"log"
 	"net/http"
+	"util"
 )
 
 func main() {
-	log.Println("server start...")
+	/*log.Println("server start...")
 	Route()
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		log.Println("ListenAndServe failed!", err.Error())
 		return
-	}
+	}*/
+
+	str, _ := util.ParseHtmlTemplateToStr("index.html", nil)
+	log.Println(str)
 }
 
 /**
