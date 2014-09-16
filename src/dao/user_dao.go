@@ -13,6 +13,6 @@ type UserDao interface {
 type UserDaoImpl struct {
 }
 
-func (userDao *UserDaoImpl) Save(user *model.User) {
+func (userDao *UserDaoImpl) Save (user *model.User) {
 	log.Println(user)
 }

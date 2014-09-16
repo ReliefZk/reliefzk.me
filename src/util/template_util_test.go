@@ -15,6 +15,6 @@ func Test_MergeTemplate(t *testing.T) {
 }
 
 func Test_ParseHtmlTemplateToStr(t *testing.T) {
-	str, _ := ParseHtmlTemplateToStr("index.html", nil)
+	str := MyTemplateDirective("index.html", nil)
 	t.Log("str = ", str)
 }
