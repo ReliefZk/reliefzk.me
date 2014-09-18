@@ -5,6 +5,7 @@ package util
 
 import (
 	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 	"log"
 )
 
@@ -65,4 +66,15 @@ func (dbUtil *DbUtil) GetSession() *mgo.Session {
  */
 func (dbUtil *DbUtil) ReturnResource(sess *mgo.Session) {
 	sessionChannel <- sess
+}
+
+/**
+* 把map转为bson.M
+ */
+func (dbUtil *DbUtil) MapToBsonMParse(queryMap map[string]string) bson.M {
+	bm := make(bson.M)
+	for k, v := range queryMap {
+		bm[k] = v
+	}
+	return bm
 }
