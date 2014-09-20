@@ -10,7 +10,7 @@ import (
 var BLOG_DB = "my_blog"
 
 //数据库管理帮助类
-var dbUtil = new(DbUtil)
+var dbUtil = new(util.DbUtil)
 
 type BlogDao interface {
 	Save(blog *model.Blog)
@@ -28,12 +28,12 @@ func (blogDaoImpl *BlogDaoImpl) Save(blog *model.Blog) {
 	c.Insert(blog)
 }
 
-func (blogDaoImpl *BlogDaoImpl) QueryForList(queryParams map[string]string) (model.Blog[]) {
+func (blogDaoImpl *BlogDaoImpl) QueryForList(queryParams map[string]string) ([]model.Blog) {
 	msession := dbUtil.GetSession()
 	defer dbUtil.ReturnResource(msession)
 	cursor := msession.DB(BLOG_DB).C("blog")
 
-	bson.M bsonM = dbUtil.MapToBsonMParse(queryParams)
+	bsonM := dbUtil.MapToBsonMParse(queryParams)
 
 	// 读取数据
     blogList := []model.Blog{}
