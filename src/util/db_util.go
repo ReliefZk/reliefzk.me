@@ -23,11 +23,11 @@ var sessionChannel = make(chan *mgo.Session, MinCore)
 /**
 * 初始化函数
  */
-/*func init() {
+func init() {
 	for i := 0; i < MinCore; i++ {
 		sessionChannel <- InitSession()
 	}
-}*/
+}
 
 /**
 * 创建session
