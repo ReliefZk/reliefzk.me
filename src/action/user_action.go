@@ -3,10 +3,12 @@ package action
 import (
 	"dao"
 	"log"
-	"model"
+//	"model"
 	"net/http"
 	"util"
 )
+
+var password = "zhoukui198752"
 
 var userDao dao.UserDao = new(dao.UserDaoImpl)
 
@@ -19,40 +21,19 @@ func IndexPageHandler(writer http.ResponseWriter, reader *http.Request) {
 }
 
 /**
-* reg page handler
- */
-func RegPageHandler(writer http.ResponseWriter, reader *http.Request) {
-	log.Println("reg page handler.....")
-	util.PrintStaticTempalte(writer, "reg", nil)
-}
+* 用户编辑博客
+ *   需要校验密码
+*/
+func EditBlog(writer http.ResponseWriter, req *http.Request) {
+	req.ParseForm()
+	log.Println("====", req.Method)
+	//save a ready blog
+	if req.Method == "POST" {
 
-/**
-* login page handler
- */
-func LoginPageHandler(writer http.ResponseWriter, reader *http.Request) {
-	log.Println("login page handler.....")
-	util.PrintStaticTempalte(writer, "login", nil)
-}
-
-/**
-* login action page handler
- */
-func LoginActionHandler(writer http.ResponseWriter, req *http.Request) {
-	log.Println("login action page handler.....")
-	// fill user model
-	username := req.FormValue("username")
-	password := req.FormValue("password")
-	var user *model.User = &model.User{Name: username, Password: password}
-	userDao.Save(user)
-
-	// template
-	util.PrintStaticTempalte(writer, "success", user)
-}
-
-/**
-* about page handler
- */
-func CRHandler(writer http.ResponseWriter, req *http.Request) {
-	log.Println("about page handler.....")
-	util.PrintStaticTempalte(writer, "common/copyright.html", nil)
+	} else { // edit new blog's template
+		passwd := req.FormValue("passwd")
+		if passwd == password {
+			util.PrintStaticTempalte(writer, "common/new_blog.html", nil)
+		}
+	}
 }

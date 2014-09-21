@@ -28,7 +28,7 @@ func (blogDaoImpl *BlogDaoImpl) Save(blog *model.Blog) {
 	c.Insert(blog)
 }
 
-func (blogDaoImpl *BlogDaoImpl) QueryForList(queryParams map[string]string) ([]model.Blog) {
+func (blogDaoImpl *BlogDaoImpl) QueryForList(queryParams map[string]string) []model.Blog {
 	msession := dbUtil.GetSession()
 	defer dbUtil.ReturnResource(msession)
 	cursor := msession.DB(BLOG_DB).C("blog")
@@ -36,11 +36,11 @@ func (blogDaoImpl *BlogDaoImpl) QueryForList(queryParams map[string]string) ([]m
 	bsonM := dbUtil.MapToBsonMParse(queryParams)
 
 	// 读取数据
-    blogList := []model.Blog{}
-    err := cursor.Find(&bsonM).All(&blogList)
-    if err != nil {
-    	log.Println("mongo query error.", err.Error())
-    }
+	blogList := []model.Blog{}
+	err := cursor.Find(&bsonM).All(&blogList)
+	if err != nil {
+		log.Println("mongo query error.", err.Error())
+	}
 
-    return blogList
+	return blogList
 }

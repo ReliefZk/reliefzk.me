@@ -11,7 +11,7 @@ import (
 
 //数据库连接个数
 const (
-	MinCore = 5
+	MinCore = 3
 )
 
 //mongo数据库IP

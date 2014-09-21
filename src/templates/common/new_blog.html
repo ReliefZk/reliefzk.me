@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app="new_blog_app">
+<head>
+<title>new blog</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+<link rel="stylesheet" href="/css/bootstrap.css" />
+<link rel="stylesheet" href="/css/simditor.css" />
+<link rel="stylesheet" href="/css/font-awesome.css" />
+
+<script src="/js/jquery-2.1.1.js"></script>
+<script src="/js/angular-1.3.0.js"></script>
+
+</head>
+<body>
+	<div class="container header"></div>
+
+	<div class="container" ng-controller="mainController">
+		<div>[[ editor ]]</div>
+		<div simditor ng-model="editor"></div>
+	</div>
+
+	<script src="/js/simditor-all.js"></script>
+	<script src="/js/doc_directive.js"></script>
+	<script src="/js/application.js"></script>
+</body>
+</html>

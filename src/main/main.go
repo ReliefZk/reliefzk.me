@@ -24,10 +24,14 @@ func main() {
 * 路由信息
  */
 func Route() {
+	dir := "/home/zk/code/go/src/reliefzk.me/src/templates/static"
+	http.Handle("/css/", http.FileServer(http.Dir(dir)))
+	http.Handle("/js/", http.FileServer(http.Dir(dir)))
+	http.Handle("/fonts/", http.FileServer(http.Dir(dir)))
+	http.Handle("/images/", http.FileServer(http.Dir(dir)))
+
+	//request route
 	http.HandleFunc("/", action.IndexPageHandler)
-	http.HandleFunc("/login", action.LoginPageHandler)
-	http.HandleFunc("/login.action", action.LoginActionHandler)
-	http.HandleFunc("/reg", action.RegPageHandler)
-	http.HandleFunc("/reg.action", action.LoginActionHandler)
-	http.HandleFunc("/cr", action.CRHandler)
+	//backportal edit new blog
+	http.HandleFunc("/new_blog", action.EditBlog)
 }
