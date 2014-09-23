@@ -3,7 +3,7 @@ package action
 import (
 	"dao"
 	"log"
-//	"model"
+	//	"model"
 	"net/http"
 	"util"
 )
@@ -11,6 +11,7 @@ import (
 var password = "zhoukui198752"
 
 var userDao dao.UserDao = new(dao.UserDaoImpl)
+var blogDao dao.BlogDao = new(dao.BlogDaoImpl)
 
 /**
 * index page handler
@@ -36,4 +37,8 @@ func EditBlog(writer http.ResponseWriter, req *http.Request) {
 			util.PrintStaticTempalte(writer, "common/new_blog.html", nil)
 		}
 	}
+}
+
+func QueryBlogList(writer http.ResponseWriter, req *http.Request) {
+	blogDao.QueryForList(nil)
 }

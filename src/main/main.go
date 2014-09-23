@@ -34,4 +34,6 @@ func Route() {
 	http.HandleFunc("/", action.IndexPageHandler)
 	//backportal edit new blog
 	http.HandleFunc("/new_blog", action.EditBlog)
+	//json 最新博客
+	http.HandleFunc("/new_list_blog", action.QueryBlogList)
 }

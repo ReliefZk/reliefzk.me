@@ -14,7 +14,7 @@ var dbUtil = new(util.DbUtil)
 
 type BlogDao interface {
 	Save(blog *model.Blog)
-	QueryForList(queryParams map[string]string)
+	QueryForList(queryParams map[string]string) []model.Blog
 	IDao
 }
 
